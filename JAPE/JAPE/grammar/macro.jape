@@ -1,0 +1,24 @@
+Phase: University
+Input: Token Lookup Split
+Options: control = appelt
+
+Macro: ofENDE
+(
+ {Token.string == "of"} | {Token.string == "de"}
+)
+
+
+Rule: UniversityMacro
+(
+ ({Token.string =~ "Universi"})
+ (ofENDE)
+ ({Token.orth == upperInitial})*
+ ({Lookup.minorType == city} | {Lookup.minorType == country, Lookup.normalized == "United Kingdom"} | {Lookup.minorType == province}):loc
+):orgName 
+(
+ ({!Lookup.minorType == country})
+)
+-->
+:loc.Location = {kind = :loc.Lookup.minorType},
+:orgName.Organization = {kind = university, uniName=:orgName@string, uniNameLen=:orgName@length}
+

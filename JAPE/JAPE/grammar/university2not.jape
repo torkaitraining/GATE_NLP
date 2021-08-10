@@ -1,0 +1,17 @@
+Phase: University
+Input: Token Lookup
+Options: control = appelt
+
+
+Rule: University2not
+(
+ ({Token.string == "University"})
+ {Token.string == "of"}
+ ({Lookup.minorType == city} | {Lookup.minorType == country, Lookup.name == "The United Kingdom of Great Britain and Northern Ireland"})+:cityName
+) :orgName 
+(
+ ({!Lookup.minorType == country})
+)
+-->
+:cityName.Location = {kind = city},
+:orgName.Organization = {kind = university}

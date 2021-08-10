@@ -1,0 +1,1 @@
+{"annotation_sets": {"": {"name": "", "annotations": [], "next_annid": 689}}, "text": "This is another document for testing which mentions John Smith.", "features": {"gate.SourceURL": "created from String"}, "offset_type": "p", "name": "doc2"}

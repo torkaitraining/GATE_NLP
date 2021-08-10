@@ -1,0 +1,22 @@
+Phase: University
+Input: Token Lookup Split Organization
+Options: control = appelt
+
+Rule: CityWithin
+(
+ {Lookup.minorType == city, Lookup within {Organization.kind == university}}
+):cityName
+-->
+:cityName.City = {kind = uniCity}
+
+
+Rule: Unicontain
+(
+  {Organization.kind == university, Organization contains {Lookup.minorType == city}}
+):orgName 
+-->
+:orgName.University = {kind = cityUni}
+
+
+
+

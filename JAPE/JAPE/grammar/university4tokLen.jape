@@ -1,0 +1,18 @@
+Phase: University
+Input: Token Lookup Split
+Options: control = appelt
+
+
+Rule: University4TokLen
+(
+ ({Token.string == "University"})
+ {Token.string == "of"}
+ ({Token.length > 3})*
+ ({Lookup.minorType == city} | {Lookup.minorType == country, Lookup.name == "The United Kingdom of Great Britain and Northern Ireland"})+:cityName
+) :orgName 
+(
+ ({!Lookup.minorType == country})
+)
+-->
+:cityName.Location = {kind = city},
+:orgName.Organization = {kind = university}

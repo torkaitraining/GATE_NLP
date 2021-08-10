@@ -1,0 +1,55 @@
+Phase: University
+Input: Organization Token Lookup
+Options: control = appelt
+
+
+Rule: RemoveCityWithinUniversity
+(
+ ({Token.string == "University"})
+ {Token.string == "of"}
+ ({Token.orth == upperInitial})*
+ ({Lookup.minorType == city} | {Lookup.minorType == country, Lookup.name == "The United Kingdom of Great Britain and Northern Ireland"})+:cityName
+) :orgName
+(
+ ({!Lookup.minorType == country})
+)
+-->
+:cityName.Location = {kind = city},
+:orgName.Organization = {kind = university},
+:orgName{
+  // Get the names for the annotation sets
+  System.out.println("===Annotation Set names for the doc===");
+  Set<String> setNames = doc.getAnnotationSetNames();
+  System.out.println(setNames);
+
+
+  // Get the default annotation set.
+  System.out.println("===Default set in the document===");
+  AnnotationSet defaultAnnoInDoc = doc.getAnnotations();
+  System.out.println(defaultAnnoInDoc);
+
+  // Get a named annotation set.
+  System.out.println("===Test set in the document===");
+  AnnotationSet TestAnnoInDoc = doc.getAnnotations("Test");
+  System.out.println(TestAnnoInDoc);
+
+  // Get input annotation set
+  System.out.println("===InputSet===");
+  System.out.println(inputAS);
+
+  // Get output annotation set
+  System.out.println("===OutputSet===");
+  System.out.println(outputAS);
+
+
+  // Get binding annotation set
+  System.out.println("===orgBinding===");
+  AnnotationSet orgBinding = bindings.get("orgName");
+  System.out.println(orgBinding);
+
+
+  System.out.println("===cityBinding===");
+  AnnotationSet cityBinding = bindings.get("cityName");
+  System.out.println(cityBinding);
+
+}

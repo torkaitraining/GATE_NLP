@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cloudReport xmlns="http://gate.ac.uk/ns/cloud/report/1.0">
+<documents>
+<processResult id="doc1.xml" returnCode="SUCCESS"><fileSize>527</fileSize><documentLength>58</documentLength><executionTime>8</executionTime><statistics/></processResult>
+<processResult id="doc2.xml" returnCode="SUCCESS"><fileSize>526</fileSize><documentLength>57</documentLength><executionTime>8</executionTime><statistics/></processResult>
+<processResult id="doc3.xml" returnCode="SUCCESS"><fileSize>534</fileSize><documentLength>65</documentLength><executionTime>1</executionTime><statistics/></processResult>
+</documents>
+<!--This shows the overall execution time for the whole 
+batch. This value only includes the execution time of 
+the last run (so if the batch was restarted, it will 
+only include those documents that were processed last!-->
+<batchReport>
+  <finalBatchState>FINISHED</finalBatchState>
+  <totalDocuments>3</totalDocuments>
+  <successfullyProcessed>3</successfullyProcessed>
+  <withError>0</withError>
+  <totalBytes>1587</totalBytes>
+  <totalCharacters>180</totalCharacters>
+  <executionTime>10845</executionTime>
+  </batchReport>
+</cloudReport>

@@ -1,0 +1,24 @@
+Phase: University
+Input: Organization Token Lookup
+Options: control = appelt
+
+
+Rule: RemoveCityWithinUniversity
+(
+ ({Token.string == "University"})
+ {Token.string == "of"}
+ ({Token.orth == upperInitial})*
+ ({Lookup.minorType == city} | {Lookup.minorType == country, Lookup.name == "The United Kingdom of Great Britain and Northern Ireland"})+:cityName
+) :orgName
+(
+ ({!Lookup.minorType == country})
+)
+-->
+:cityName.Location = {kind = city},
+:orgName.Organization = {kind = university},
+:orgName{
+  // Obtain the document content
+  System.out.println("===docContent===");
+  String docContent = doc.getContent().toString();
+  System.out.println(docContent);
+}

@@ -1,0 +1,24 @@
+Phase: University
+Input: Token Lookup Split Organization
+Options: control = appelt
+
+Rule: Unicontain1
+Priority: 10
+(
+  {Organization.kind == university, Organization contains {Lookup.minorType == city}}
+):orgName 
+-->
+:orgName.University1 = {kind = cityUni}
+
+Rule: Unicontain2
+Priority: 100
+(
+  {Organization.kind == university, Organization contains {Lookup.minorType == city}}
+):orgName
+-->
+:orgName.University2 = {kind = cityUni}
+
+
+
+
+

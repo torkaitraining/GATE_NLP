@@ -1,0 +1,4 @@
+https://gatenlp.github.io/python-gatenlp/training/module11-python.slides.html#/
+
+https://gate.ac.uk/sale/talks/gate-course-feb21/module-11-python/hands-on-python/installation.html
+

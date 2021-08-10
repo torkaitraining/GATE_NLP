@@ -1,0 +1,99 @@
+Phase: University
+Input: Organization Token Lookup
+Options: control = appelt
+
+
+Rule: RemoveCityWithinUniversity
+(
+ ({Token.string == "University"})
+ {Token.string == "of"}
+ ({Token.orth == upperInitial})*
+ ({Lookup.minorType == city} | {Lookup.minorType == country, Lookup.name == "The United Kingdom of Great Britain and Northern Ireland"})+:cityName
+) :orgName
+(
+ ({!Lookup.minorType == country})
+)
+-->
+:cityName.Location = {kind = city},
+:orgName.Organization = {kind = university},
+:orgName{
+  // Obtain the document content
+  System.out.println("===docContent===");
+  String docContent = doc.getContent().toString();
+  System.out.println(docContent);
+
+  // Get the names for the annotation sets
+  System.out.println("===Annotation Set names for the doc===");
+  Set<String> setNames = doc.getAnnotationSetNames();
+  System.out.println(setNames);
+
+
+  // Get the default annotation set.
+  System.out.println("===Default set in the document===");
+  AnnotationSet defaultAnnoInDoc = doc.getAnnotations();
+  System.out.println(defaultAnnoInDoc);
+
+  // Get a named annotation set.
+  System.out.println("===Test set in the document===");
+  AnnotationSet TestAnnoInDoc = doc.getAnnotations("Test");
+  System.out.println(TestAnnoInDoc);
+
+  // Get input annotation set
+  System.out.println("===InputSet===");
+  System.out.println(inputAS);
+
+  // Get output annotation set
+  System.out.println("===OutputSet===");
+  System.out.println(outputAS);
+
+
+  System.out.println("===orgBinding===");
+  AnnotationSet orgBinding = bindings.get("orgName");
+  System.out.println(orgBinding);
+
+
+  System.out.println("===cityBinding===");
+  AnnotationSet cityBinding = bindings.get("cityName");
+  System.out.println(cityBinding);
+
+  for (Annotation cityAnno:cityBinding.inDocumentOrder()){
+    System.out.println("===cityAnno===");
+    FeatureMap cityAnnoFeatures = cityAnno.getFeatures();
+    System.out.println(cityAnnoFeatures);
+
+    Node startNode = cityAnno.getStartNode();
+    Node endNode = cityAnno.getEndNode();
+
+    System.out.println(startNode);
+    System.out.println(endNode);
+
+    long startOffSet = startNode.getOffset();
+    long endOffSet = endNode.getOffset();
+
+    FeatureMap constraintUniFeature = Factory.newFeatureMap();
+    constraintUniFeature.put("kind", "university");
+
+    AnnotationSet allUni = outputAS.get("Organization", constraintUniFeature);
+    System.out.println(allUni);
+    AnnotationSet overlapUniSet = allUni.get(startOffSet, endOffSet); 
+    System.out.println(overlapUniSet);
+    Annotation overlapUni = overlapUniSet.iterator().next();
+
+    Node startUniNode = overlapUni.getStartNode();
+    Node endUniNode = overlapUni.getEndNode();
+
+    long startUniOffSet = startUniNode.getOffset();
+    long endUniOffSet = endUniNode.getOffset();
+
+    String uniName = docContent.substring((int)startUniOffSet, (int)endUniOffSet);
+    System.out.println(uniName);
+
+    inputAS.remove(cityAnno);
+
+    cityAnnoFeatures.put("haveUni", uniName);
+
+    outputAS.add(startNode, endNode, "Lookup", cityAnnoFeatures);
+
+  }
+
+}
